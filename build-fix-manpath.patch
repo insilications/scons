@@ -1,0 +1,11 @@
+--- a/setup.py	2016-07-25 13:36:15.155538935 -0700
++++ b/setup.py	2016-07-25 13:36:54.795621342 -0700
+@@ -375,7 +375,7 @@
+             if is_win32:
+                 dir = 'Doc'
+             else:
+-                dir = os.path.join('man', 'man1')
++                dir = os.path.join('share', 'man', 'man1')
+             self.data_files = [(dir, man_pages)]
+             man_dir = os.path.join(self.install_dir, dir)
+             msg = "Installed SCons man pages into %s" % man_dir
