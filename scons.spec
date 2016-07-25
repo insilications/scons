@@ -4,17 +4,19 @@
 #
 Name     : scons
 Version  : 2.3.5
-Release  : 7
+Release  : 8
 URL      : https://bitbucket.org/scons/scons/downloads/scons-2.3.5.tar.gz
 Source0  : https://bitbucket.org/scons/scons/downloads/scons-2.3.5.tar.gz
 Summary  : Open Source next-generation build tool.
 Group    : Development/Tools
 License  : MIT
 Requires: scons-bin
+Requires: scons-doc
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : python-dev
 BuildRequires : setuptools
+Patch1: build-fix-manpath.patch
 
 %description
 SCons - a software construction tool
@@ -33,15 +35,25 @@ Group: Binaries
 bin components for the scons package.
 
 
+%package doc
+Summary: doc components for the scons package.
+Group: Documentation
+
+%description doc
+doc components for the scons package.
+
+
 %prep
 %setup -q -n scons-2.3.5
+%patch1 -p1
 
 %build
+export LANG=C
 python2 setup.py build -b py2
 
 %install
 rm -rf %{buildroot}
-python2 setup.py build -b py2 install --root=%{buildroot}
+python2 -tt setup.py build -b py2 install --root=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -637,9 +649,6 @@ python2 setup.py build -b py2 install --root=%{buildroot}
 /usr/lib/scons-2.3.5/SCons/exitfuncs.pyc
 /usr/lib/scons-2.3.5/SCons/exitfuncs.pyo
 /usr/lib/scons-2.3.5/scons-2.3.5-py2.7.egg-info
-/usr/man/man1/scons-time.1
-/usr/man/man1/scons.1
-/usr/man/man1/sconsign.1
 
 %files bin
 %defattr(-,root,root,-)
@@ -649,3 +658,7 @@ python2 setup.py build -b py2 install --root=%{buildroot}
 /usr/bin/scons-time-2.3.5
 /usr/bin/sconsign
 /usr/bin/sconsign-2.3.5
+
+%files doc
+%defattr(-,root,root,-)
+%doc /usr/share/man/man1/*
