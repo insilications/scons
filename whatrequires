@@ -1,0 +1,9 @@
+# This file contains recursive sources that require this package
+SDL2_image
+ceph
+double-conversion
+irrlicht
+libtheora
+mesa
+portaudio
+qt-everywhere-opensource-src
