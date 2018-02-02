@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 2.5.1
-Release  : 11
+Release  : 12
 URL      : https://bitbucket.org/scons/scons/downloads/scons-2.5.1.tar.gz
 Source0  : https://bitbucket.org/scons/scons/downloads/scons-2.5.1.tar.gz
 Summary  : Open Source next-generation build tool.
