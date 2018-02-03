@@ -1,9 +1,13 @@
 # This file contains recursive sources that require this package
+PyQt5
 SDL2_image
 ceph
 double-conversion
+ghostscript
 irrlicht
 libtheora
 mesa
 portaudio
 qt-everywhere-opensource-src
+spyder
+tiff
