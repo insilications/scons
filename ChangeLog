@@ -4,6 +4,159 @@
 
                             Change Log
 
+
+RELEASE 3.0.1 - Mon, 14 Nov 2017 08:28:09 -0700
+
+  From Thomas Berg:
+    - Fixed a regression in scons-3.0.0 where "from __future__ import print_function" was imposed
+      on the scope where SConstruct is executed, breaking existing builds using PY 2.7.
+
+  From William Deegan:
+    - Fix issue where code in utility routine to_String_for_subst() had code whose result was never
+      properly returned.  
+      (Found by: James Rinkevich https://pairlist4.pair.net/pipermail/scons-users/2017-October/006358.html )
+    - Fixed Variables.GenerateHelpText() to now use the sort parameter. Due to incorrect 2to3 fixer changes 
+      8 years ago it was being used as a boolean parameter.  Now you can specify sort to be a callable, or boolean
+      value. (True = normal sort). Manpage also updated.
+    - Fixed Tool loading logic from exploding sys.path with many site_scons/site_tools prepended on py3.
+    - Added additional output with time to process each SConscript file when using --debug=time.
+    - Fix broken subst logic where a string with "$$(abc)" was being treated as "$(abc) and the
+      logic for removing the signature escapes was then failing because there was no closing "$)".
+      This was introduced by a pull request to allow recursive variable evaluations to yield a string
+      such as "$( $( some stuff $) $)".
+
+  From Daniel Moody:
+    - Jar can take multiple targets, and will make a duplicate jar from the sources for each target
+    - Added some warnings in case the Jar builder makes an implicit target
+    - Added Jar method and changed jar build to be more specific. Jar method will take in
+      directories or classes as source. Added more tests to JAR to ensure the jar was 
+      packaged with the correct compiled class files.
+    - Added a No result test case to handle bug which seems unrelated to java in the 
+      swig-dependencies.py test, more info here: http://scons.tigris.org/issues/show_bug.cgi?id=2907
+    - Added a travis script to test on ubuntu trusty now that the project is on github
+      so that Continuus Integration tests can be run automatically. It tests most case and considers 
+      no result a pass as well. Improving this script can install more dependincies allowing for more 
+      tests to be run.
+    - Updated the Jar Builder tool in Tool/__init__.py so that is doesn't force class files as
+      sources, allowing directories to be passed, which was causing test/Java/JAR.py to fail.
+
+  From Zachary Tessler:
+    - Fix incorrect warning for repeated identical builder calls that use overrides
+
+RELEASE 3.0.0 - Mon, 18 Sep 2017 08:32:04 -0700
+
+NOTE: This is a major release.  You should expect that some targets may rebuild when upgrading.
+Significant changes in some python action signatures. Also switching between PY 2.7 and PY 3.5, 3.6
+will cause rebuilds.
+
+
+  From William Blevins:
+    - Updated D language scanner support to latest: 2.071.1. (PR #1924)
+      https://dlang.org/spec/module.html accessed 11 August 2016
+      - Enhancements:
+        - Added support for selective imports: "import A : B, C;" -> A
+        - Added support for renamed imports. "import B = A;" -> A
+        - Supports valid combinations: "import A, B, CCC = C, DDD = D : EEE = FFF;" -> A, B, C, D
+      - Notes:
+        - May find new (previously missed) Dlang dependencies.
+        - May cause rebuild after upgrade due to dependency changes.
+    - Updated Fortran-related tests to pass under GCC 5/6.
+    - Fixed SCons.Tool.Packaging.rpm.package source nondeterminism across builds.
+
+  From William Deegan:
+    - Removed deprecated tools CVS, Perforce, BitKeeper, RCS, SCCS, Subversion.
+    - Removed deprecated module SCons.Sig
+    - Added prioritized list of xsltproc tools to docbook. The order will now be as
+      follows: xsltproc, saxon, saxon-xslt, xalan  (with first being highest priority, first
+      tool found is used)
+    - Fixed MSVSProject example code (http://scons.tigris.org/issues/show_bug.cgi?id=2979)
+    - Defined MS SDK 10.0 and Changed VS 2015 to use SDK 10.0
+    - Changes to Action Function and Action Class signiture creation.  NOTE: This will cause rebuilds
+      for many builds when upgrading to SCons 3.0
+    - Fixed Bug #3027 - "Cross Compiling issue: cannot override ranlib"
+    - Fixed Bug #3020 - "Download link in user guide wrong. python setup.py install --version-lib broken"
+    - Fixed Bug #2486 - Added SetOption('silent',True) - Previously this value was not allowed to be set.
+    - Fixed Bug #3040 - Non-unicode character in CHANGES.txt
+    - Fixed Bug #2622 - AlwaysBuild + MSVC regression.
+    - Fixed Bug #3025 - (Credit to Florian : User flow86 on tigris) - Fix typo JAVACLASSSUFIX should have been
+                        JAVACLASSSUFFIX
+
+
+  From Ibrahim Esmat:
+    - Added the capability to build Windows Store Compatible libraries that can be used
+      with Universal Windows Platform (UWP) Apps and published to the store
+
+  From Daniel Holth:
+    - Add basic support for PyPy (by deleting __slots__ from Node with a
+      metaclass on PyPy); wrap most-used open() calls in 'with' statements to
+      avoid too many open files.
+    - Add __main__.py for `python -m SCons` in case it is on PYTHONPATH.
+    - Always use highest available pickle protocol for efficiency.
+    - Remove unused command line fallback for the zip tool.
+
+  From Gaurav Juvekar:
+    - Fix issue #2832: Expand construction variables in 'chdir' argument of builders. (PR #463)
+    - Fix issue #2910: Make --tree=all handle Unicode. (PR #427)
+    - Fix issue #2788: Fix typo in documentation example for sconf. (PR #388)
+
+  From Alexey Klimkin:
+    - Use memoization to optimize PATH evaluation across all dependencies per
+      node. (PR #345)
+    - Use set() where it is applicable (PR #344)
+
+  From M. Limber:
+    - Fixed msvs.py for Visual Studio Express editions that would report
+      "Error  : ValueError: invalid literal for float(): 10.0Exp".
+
+  From Rick Lupton:
+    - Update LaTeX scanner to understand \import and related commands
+
+  From Steve Robinson:
+    - Add support for Visual Studio 2017.  This support requires vswhere.exe a helper
+      tool installed with newer installs of 2017. SCons expects it to be located at
+      "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
+      It can be downloaded separately at     
+      https://github.com/Microsoft/vswhere
+ 
+  From Tom Tanner:
+    - Allow nested $( ... $) sections
+
+  From Paweł Tomulik:
+    - Fixed the issue with LDMODULEVERSIONFLAGS reported by Tim Jenness
+      (https://pairlist4.pair.net/pipermail/scons-users/2016-May/004893.html).
+      An error was causing "-Wl,Bsymbolic" being added to linker's command-line
+      even when there was no specified value in LDMODULEVERSION and thus no
+      need for the flags to be specified.
+    - Added LoadableModule to the list of global functions (DefaultEnvironment
+      builders).
+
+  From Manish Vachharajani:
+    - Update debian rules, compat, and control to not use features
+      deprecated or obsolete in later versions of debhelpers
+    - Update python version to 2.7 in debian/control
+
+  From Richard Viney:
+    - Fixed PCHPDBFLAGS causing a deprecation warning on MSVC v8 and later when
+      using PCHs and PDBs together.
+
+
+  From Richard West:
+    - Added nested / namespace tool support
+    - Added a small fix to the python3 tool loader when loading a tool as a package
+    - Added additional documentation to the user manual on using toolpaths with the environment
+      This includes the use of sys.path to search for tools installed via pip or package managers
+    - Added support for a PyPackageDir function for use with the toolpath
+
+  From Russel Winder:
+    - Reordered the default D tools from "dmd, gdc, ldc" to "dmd, ldc, gdc".
+    - Add a ProgramAllAtOnce builder to the dmd, ldc, and gdc tools. (PR #448)
+    - Remove a file name exception for very old Fedora LDC installation.
+    - gdc can now handle building shared objects (tested for version 6.3.0).
+    - Remove establishing the SharedLibrary builder in the dmd, ldc, and gdc
+      tools, must now include the ar tool to get this builder as is required for
+      other compiler tools.
+    - Add clang and clang++ tools based on Paweł Tomulik's work.
+
 RELEASE 2.5.1 - Mon, 03 Nov 2016 13:37:42 -0400
 
   From William Deegan:
@@ -12,7 +165,6 @@ RELEASE 2.5.1 - Mon, 03 Nov 2016 13:37:42 -0400
   From Alexey Klimkin:
     - Use memoization to optimize PATH evaluation across all dependencies per
       node. (PR #345)
-
 
 RELEASE 2.5.0 - Mon, 09 Apr 2016 11:27:42 -0700
 
@@ -88,7 +240,7 @@ RELEASE 2.4.1 - Mon, 07 Nov 2015 10:37:21 -0700
       and continuing.
 
   From Hiroaki Itoh :
-    - Add support `Microsoft Visual C++ Compiler for Python 2.7' 
+    - Add support `Microsoft Visual C++ Compiler for Python 2.7'
       Compiler can be obtained at: https://www.microsoft.com/en-us/download/details.aspx?id=44266
 
   From Florian Miedniak:
@@ -215,6 +367,9 @@ RELEASE 2.3.3 - Sun, 24 Aug 2014 21:08:33 -0400
   From Russel Winder:
     - Fix regression on Windows in D language update
 
+  From Neal Becker and Stefan Zimmermann:
+    - Python 3 port and compatibility
+
   From Anatoly Techtonik:
     - Do not fail on EnsureSConsVersion when running from checkout
 
@@ -237,33 +392,39 @@ RELEASE 2.3.3 - Sun, 24 Aug 2014 21:08:33 -0400
 
 RELEASE 2.3.2
 
+  From Dirk Baechle:
+    - Update XML doc editor configuration
+    - Fix: Allow varlist to be specified as list of strings for Actions (#2754)
+
   From veon on bitbucket:
     - Fixed handling of nested ifs in CPP scanner PreProcessor class.
+
+  From Shane Gannon:
+    - Support for Visual Studio 2013 (12.0)
 
   From Michael Haubenwallner:
     - Respect user's CC/CXX values; don't always overwrite in generate()
     - Delegate linker Tool.exists() to CC/CXX Tool.exists().
 
+  From Rob Managan:
+    - Updated the TeX builder to support use of the -synctex=1
+      option and the files it creates.
+    - Updated the TeX builder to correctly clean auxiliary files when
+      the biblatex package is used.
+
+  From Gary Oberbrunner:
+    - get default RPM architecture more robustly when building RPMs
+
   From Amir Szekely:
     - Fixed NoClean() for multi-target builders (#2353).
+
+  From Paweł Tomulik:
+    - Fix SConf tests that write output
 
   From Russel Winder:
     - Revamp of the D language support. Tools for DMD, GDC and LDC provided
       and integrated with the C and C++ linking. NOTE: This is only tested
       with D v2. Support for D v1 is now deprecated.
-
-  From Paweł Tomulik:
-    - Fix SConf tests that write output
-
-  From Gary Oberbrunner:
-    - get default RPM architecture more robustly when building RPMs
-
-  From Shane Gannon:
-    - Support for Visual Studio 2013 (12.0)
-
-  From Sye van der Veen:
-    - Support for Visual Studio 12.0Exp, and fixes for earlier MSVS
-      versions.
 
   From Anatoly Techtonik:
     - Several improvements for running scons.py from source:
@@ -279,15 +440,10 @@ RELEASE 2.3.2
       SCons initialization (it will still be possible to use these tools
       explicitly)
 
-  From Dirk Baechle:
-    - Update XML doc editor configuration
-    - Fix: Allow varlist to be specified as list of strings for Actions (#2754)
+  From Sye van der Veen:
+    - Support for Visual Studio 12.0Exp, and fixes for earlier MSVS
+      versions.
 
-  From Rob Managan:
-    - Updated the TeX builder to support use of the -synctex=1
-      option and the files it creates.
-    - Updated the TeX builder to correctly clean auxiliary files when
-      the biblatex package is used.
 
 RELEASE 2.3.1
 
@@ -6019,5 +6175,5 @@ A brief overview of important functionality available in release 0.01:
 
 
 
-Copyright (c) 2001 - 2016 The SCons Foundation
-src/CHANGES.txt rel_2.5.1:3735:9dc6cee5c168 2016/11/03 14:02:02 bdbaddog
+Copyright (c) 2001 - 2017 The SCons Foundation
+src/CHANGES.txt 74b2c53bc42290e911b334a6b44f187da698a668 2017/11/14 13:16:53 bdbaddog
