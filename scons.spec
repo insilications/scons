@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 3.0.1
-Release  : 15
+Release  : 16
 URL      : prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Source0  : prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Summary  : Open Source next-generation build tool.
