@@ -4,18 +4,20 @@
 #
 Name     : scons
 Version  : 3.0.1
-Release  : 14
+Release  : 15
 URL      : prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Source0  : prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Summary  : Open Source next-generation build tool.
 Group    : Development/Tools
 License  : MIT
 Requires: scons-bin
+Requires: scons-doc
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
+Patch1: manpage.patch
 
 %description
 Improved, cross-platform substitute for the classic Make
@@ -30,15 +32,24 @@ Group: Binaries
 bin components for the scons package.
 
 
+%package doc
+Summary: doc components for the scons package.
+Group: Documentation
+
+%description doc
+doc components for the scons package.
+
+
 %prep
 %setup -q -n scons-3.0.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1524674755
+export SOURCE_DATE_EPOCH=1524691257
 python3 setup.py build -b py3
 
 %install
@@ -439,9 +450,6 @@ echo ----[ mark ]----
 /usr/lib/scons-3.0.1/SCons/dblite.py
 /usr/lib/scons-3.0.1/SCons/exitfuncs.py
 /usr/lib/scons-3.0.1/scons-3.0.1-py3.6.egg-info
-/usr/man/man1/scons-time.1
-/usr/man/man1/scons.1
-/usr/man/man1/sconsign.1
 
 %files bin
 %defattr(-,root,root,-)
@@ -453,3 +461,7 @@ echo ----[ mark ]----
 /usr/bin/scons-time-3.0.1
 /usr/bin/sconsign
 /usr/bin/sconsign-3.0.1
+
+%files doc
+%defattr(-,root,root,-)
+%doc /usr/share/man/man1/*

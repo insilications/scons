@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index f4a08c3..b5cf6f7 100644
+--- a/setup.py
++++ b/setup.py
+@@ -376,7 +376,7 @@ class install_data(_install_data):
+             if is_win32:
+                 dir = 'Doc'
+             else:
+-                dir = os.path.join('man', 'man1')
++                dir = os.path.join('share', 'man', 'man1')
+             self.data_files = [(dir, man_pages)]
+             man_dir = os.path.join(self.install_dir, dir)
+             msg = "Installed SCons man pages into %s" % man_dir
