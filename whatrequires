@@ -9,4 +9,5 @@ mesa
 portaudio
 qtimageformats
 sane-backends
+serf
 tiff
