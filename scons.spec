@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 3.0.1
-Release  : 18
+Release  : 19
 URL      : https://prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Source0  : https://prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
 Summary  : Open Source next-generation build tool.
@@ -18,6 +18,7 @@ BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
 Patch1: manpage.patch
+Patch2: py2.patch
 
 %description
 Improved, cross-platform substitute for the classic Make
@@ -43,13 +44,14 @@ doc components for the scons package.
 %prep
 %setup -q -n scons-3.0.1
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1524857340
+export SOURCE_DATE_EPOCH=1524858098
 python2 setup.py build -b py2
 
 %install
