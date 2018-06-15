@@ -14,7 +14,7 @@ Requires: scons-bin
 Requires: scons-man
 BuildRequires : pbr
 BuildRequires : pip
-BuildRequires : python-dev
+
 BuildRequires : python3-dev
 BuildRequires : setuptools
 Patch1: manpage.patch
