@@ -4,15 +4,15 @@
 #
 Name     : scons
 Version  : 3.0.1
-Release  : 24
-URL      : https://prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
-Source0  : https://prdownloads.sourceforge.net/scons/scons-3.0.1.tar.gz
+Release  : 25
+URL      : https://sourceforge.net/projects/scons/files/scons/3.0.1/scons-3.0.1.tar.gz
+Source0  : https://sourceforge.net/projects/scons/files/scons/3.0.1/scons-3.0.1.tar.gz
 Summary  : Open Source next-generation build tool.
 Group    : Development/Tools
 License  : MIT
-Requires: scons-bin
-Requires: scons-license
-Requires: scons-man
+Requires: scons-bin = %{version}-%{release}
+Requires: scons-license = %{version}-%{release}
+Requires: scons-man = %{version}-%{release}
 BuildRequires : buildreq-distutils
 BuildRequires : buildreq-distutils3
 Patch1: manpage.patch
@@ -26,8 +26,8 @@ Improved, cross-platform substitute for the classic Make
 %package bin
 Summary: bin components for the scons package.
 Group: Binaries
-Requires: scons-license
-Requires: scons-man
+Requires: scons-license = %{version}-%{release}
+Requires: scons-man = %{version}-%{release}
 
 %description bin
 bin components for the scons package.
@@ -59,13 +59,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535128028
+export SOURCE_DATE_EPOCH=1545262518
+export MAKEFLAGS=%{?_smp_mflags}
 python2 setup.py build -b py2
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/scons
-cp LICENSE.txt %{buildroot}/usr/share/doc/scons/LICENSE.txt
+mkdir -p %{buildroot}/usr/share/package-licenses/scons
+cp LICENSE.txt %{buildroot}/usr/share/package-licenses/scons/LICENSE.txt
 python2 -tt setup.py build -b py2 install --root=%{buildroot}
 ## install_append content
 find %{buildroot} -name "*.pyc" | xargs rm
@@ -281,11 +283,11 @@ find %{buildroot} -name "*.pyc" | xargs rm
 /usr/bin/sconsign-3.0.1
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/scons/LICENSE.txt
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/scons/LICENSE.txt
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/scons-time.1
 /usr/share/man/man1/scons.1
 /usr/share/man/man1/sconsign.1
