@@ -1,8 +1,0 @@
---- scons-3.0.1/script/scons~	2017-11-14 21:16:58.000000000 +0000
-+++ scons-3.0.1/script/scons	2018-04-27 19:40:22.057037798 +0000
-@@ -1,4 +1,4 @@
--#! /usr/bin/env python
-+#! /usr/bin/env python2
- #
- # SCons - a Software Constructor
- #

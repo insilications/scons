@@ -4,28 +4,23 @@
 #
 Name     : scons
 Version  : 3.1.1
-Release  : 31
+Release  : 32
 URL      : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
 Source0  : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
-Summary  : Extensible Python-based build utility
+Summary  : Open Source next-generation build tool.
 Group    : Development/Tools
 License  : MIT
 Requires: scons-bin = %{version}-%{release}
 Requires: scons-license = %{version}-%{release}
 Requires: scons-man = %{version}-%{release}
-BuildRequires : buildreq-distutils
 BuildRequires : buildreq-distutils3
+BuildRequires : python-core
 Patch1: manpage.patch
-Patch2: py2.patch
 
 %description
-SCons - a software construction tool
-Version 3.0.3
-This is SCons, a tool for building software (and other files).  SCons is
-implemented in Python, and its "configuration files" are actually Python
-scripts, allowing you to use the full power of a real scripting language
-to solve build problems.  You do not, however, need to know Python to
-use SCons effectively.
+Improved, cross-platform substitute for the classic Make
+        utility.  In short, SCons is an easier, more reliable
+        and faster way to build software.
 
 %package bin
 Summary: bin components for the scons package.
@@ -55,15 +50,13 @@ man components for the scons package.
 %prep
 %setup -q -n scons-3.1.1
 %patch1 -p1
-%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565323346
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1567009644
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
