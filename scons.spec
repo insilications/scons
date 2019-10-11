@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 3.1.1
-Release  : 32
+Release  : 34
 URL      : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
 Source0  : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
 Summary  : Open Source next-generation build tool.
@@ -14,7 +14,6 @@ Requires: scons-bin = %{version}-%{release}
 Requires: scons-license = %{version}-%{release}
 Requires: scons-man = %{version}-%{release}
 BuildRequires : buildreq-distutils3
-BuildRequires : python-core
 Patch1: manpage.patch
 
 %description
@@ -56,7 +55,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567009644
+export SOURCE_DATE_EPOCH=1570824607
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -66,14 +65,17 @@ export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 export MAKEFLAGS=%{?_smp_mflags}
-python2 setup.py build -b py2
+python3 setup.py build
 
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/scons
-cp LICENSE.txt %{buildroot}/usr/share/package-licenses/scons/LICENSE.txt
-python2 -tt setup.py build -b py2 install --root=%{buildroot}
+cp %{_builddir}/scons-3.1.1/LICENSE.txt %{buildroot}/usr/share/package-licenses/scons/413c8906aac52b5023f2a76da36d72d6d5332101
+python3 -tt setup.py build  install --root=%{buildroot}
+echo ----[ mark ]----
+cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
+echo ----[ mark ]----
 ## install_append content
 find %{buildroot} -name "*.pyc" | xargs rm
 ## install_append end
@@ -274,7 +276,7 @@ find %{buildroot} -name "*.pyc" | xargs rm
 /usr/lib/scons/SCons/cpp.py
 /usr/lib/scons/SCons/dblite.py
 /usr/lib/scons/SCons/exitfuncs.py
-/usr/lib/scons/scons-3.1.1-py2.7.egg-info
+/usr/lib/scons/scons-3.1.1-py3.7.egg-info
 
 %files bin
 %defattr(-,root,root,-)
@@ -291,7 +293,7 @@ find %{buildroot} -name "*.pyc" | xargs rm
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/scons/LICENSE.txt
+/usr/share/package-licenses/scons/413c8906aac52b5023f2a76da36d72d6d5332101
 
 %files man
 %defattr(0644,root,root,0755)
