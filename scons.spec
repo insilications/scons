@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 3.1.1
-Release  : 34
+Release  : 36
 URL      : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
 Source0  : https://sourceforge.net/projects/scons/files/scons/3.1.1/scons-3.1.1.tar.gz
 Summary  : Open Source next-generation build tool.
@@ -48,6 +48,7 @@ man components for the scons package.
 
 %prep
 %setup -q -n scons-3.1.1
+cd %{_builddir}/scons-3.1.1
 %patch1 -p1
 
 %build
@@ -55,7 +56,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570824607
+export SOURCE_DATE_EPOCH=1573512819
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -276,7 +277,7 @@ find %{buildroot} -name "*.pyc" | xargs rm
 /usr/lib/scons/SCons/cpp.py
 /usr/lib/scons/SCons/dblite.py
 /usr/lib/scons/SCons/exitfuncs.py
-/usr/lib/scons/scons-3.1.1-py3.7.egg-info
+/usr/lib/scons/scons-3.1.1-py3.8.egg-info
 
 %files bin
 %defattr(-,root,root,-)
