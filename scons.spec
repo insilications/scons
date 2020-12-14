@@ -4,7 +4,7 @@
 #
 Name     : scons
 Version  : 3.1.2
-Release  : 38
+Release  : 39
 URL      : https://sourceforge.net/projects/scons/files/scons/3.1.2/scons-3.1.2.tar.gz
 Source0  : https://sourceforge.net/projects/scons/files/scons/3.1.2/scons-3.1.2.tar.gz
 Summary  : Extensible Python-based build utility
