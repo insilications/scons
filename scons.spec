@@ -4,32 +4,38 @@
 #
 Name     : scons
 Version  : 3.1.2
-Release  : 39
+Release  : 40
 URL      : https://sourceforge.net/projects/scons/files/scons/3.1.2/scons-3.1.2.tar.gz
 Source0  : https://sourceforge.net/projects/scons/files/scons/3.1.2/scons-3.1.2.tar.gz
-Summary  : Extensible Python-based build utility
+Summary  : Open Source next-generation build tool.
 Group    : Development/Tools
 License  : MIT
 Requires: scons-bin = %{version}-%{release}
+Requires: scons-license = %{version}-%{release}
 Requires: scons-man = %{version}-%{release}
 BuildRequires : buildreq-distutils3
 Patch1: manpage.patch
 
 %description
-SCons - a software construction tool
-Version 3.0.3
-This is SCons, a tool for building software (and other files).  SCons is
-implemented in Python, and its "configuration files" are actually Python
-scripts, allowing you to use the full power of a real scripting language
-to solve build problems.  You do not, however, need to know Python to
-use SCons effectively.
+Improved, cross-platform substitute for the classic Make
+        utility.  In short, SCons is an easier, more reliable
+        and faster way to build software.
 
 %package bin
 Summary: bin components for the scons package.
 Group: Binaries
+Requires: scons-license = %{version}-%{release}
 
 %description bin
 bin components for the scons package.
+
+
+%package license
+Summary: license components for the scons package.
+Group: Default
+
+%description license
+license components for the scons package.
 
 
 %package man
@@ -50,15 +56,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1576573777
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1607992054
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
@@ -66,6 +71,8 @@ python3 setup.py build
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/scons
+cp %{_builddir}/scons-3.1.2/LICENSE.txt %{buildroot}/usr/share/package-licenses/scons/7340866649e9d1091a571077d1f8c8632c8a4fc8
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -270,7 +277,7 @@ find %{buildroot} -name "*.pyc" | xargs rm
 /usr/lib/scons/SCons/cpp.py
 /usr/lib/scons/SCons/dblite.py
 /usr/lib/scons/SCons/exitfuncs.py
-/usr/lib/scons/scons-3.1.2-py3.8.egg-info
+/usr/lib/scons/scons-3.1.2-py3.9.egg-info
 
 %files bin
 %defattr(-,root,root,-)
@@ -284,6 +291,10 @@ find %{buildroot} -name "*.pyc" | xargs rm
 /usr/bin/scons.bat
 /usr/bin/sconsign
 /usr/bin/sconsign-3.1.2
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/scons/7340866649e9d1091a571077d1f8c8632c8a4fc8
 
 %files man
 %defattr(0644,root,root,0755)
