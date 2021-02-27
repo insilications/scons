@@ -1,1 +1,1 @@
-find %{buildroot} -name "*.pyc" | xargs rm
+#find %{buildroot} -name "*.pyc" | xargs rm
